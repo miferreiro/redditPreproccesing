@@ -22,7 +22,6 @@ for (csv in csvs.files) {
   num <<- 1
   message("[INFO] Num author to preprocess: ", length(unique(reddit.data$author)))
   lapply(unique(reddit.data$author)[25204:length(unique(reddit.data$author))], function(author) {
-    author <- "SwoleNattyNats"
     if (difftime(Sys.time(), initial.auth, units = c("mins")) > 59) {
       message(white("[INFO] Refreshing... (", Sys.time(), ")"))
       cred <- refresh(token$endpoint, token$app, token$credentials,
@@ -36,9 +35,6 @@ for (csv in csvs.files) {
       }
       message(green("[INFO] Refreshing...(", Sys.time(), ")"))
       initial.auth <<- Sys.time()
-    } else {
-    # token <<- authentication(configuration.file$reddit$client.id, configuration.file$reddit$client.secret)
-    # message("[INFO] Token expires_in: ", token$credentials$expires_in)
     }
 
     if (author == "[deleted]") {
