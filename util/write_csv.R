@@ -1,7 +1,7 @@
-write_csv = function(csv, output.path) {
+write_csv = function(csv, output.path, append = FALSE) {
   write.table(x = csv,
               file = output.path,
-              append = TRUE,
+              append = append,
               sep = ";",
               dec = ".",
               quote = TRUE,
