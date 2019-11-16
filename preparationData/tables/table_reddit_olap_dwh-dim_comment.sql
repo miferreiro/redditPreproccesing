@@ -10,7 +10,6 @@ CREATE TABLE reddit_olap_dwh.`dim_comment` (
   `comment_controversiality` int(8) DEFAULT NULL,
   `comment_created_utc` datetime DEFAULT NULL,
   `comment_distinguished` int(8) DEFAULT NULL,
-  `comment_edited` datetime DEFAULT NULL,
   `comment_gilded` int(8) DEFAULT NULL,
   `comment_is_submitter` boolean DEFAULT NULL,
   `comment_locked` boolean DEFAULT NULL,
