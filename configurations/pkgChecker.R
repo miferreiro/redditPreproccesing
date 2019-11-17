@@ -1,4 +1,4 @@
-packages.list <- c("devtools", "ini","httr", "lubridate", "crayon", "tibble", "rlist")
+packages.list <- c("devtools", "ini","httr", "lubridate", "crayon", "tibble", "rlist", "imputeTS")
 message("[PkgChecker][INFO] Package Manager")
 
 checkPackages <- function(packages){
