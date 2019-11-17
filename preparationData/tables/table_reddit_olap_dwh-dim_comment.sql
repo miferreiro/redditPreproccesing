@@ -16,7 +16,6 @@ CREATE TABLE reddit_olap_dwh.`dim_comment` (
   `comment_mod_remove` boolean DEFAULT NULL,
   `comment_no_follow` boolean DEFAULT NULL,
   `comment_reply_delay` int(8) DEFAULT NULL,
-  `comment_retrieved_on` datetime DEFAULT NULL,
   `comment_score` int(8) DEFAULT NULL,
   `comment_send_replies` boolean DEFAULT NULL,
   `comment_stickied` boolean DEFAULT NULL,
