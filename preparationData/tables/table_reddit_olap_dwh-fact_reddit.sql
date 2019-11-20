@@ -1,4 +1,4 @@
-CREATE TABLE reddit_olap_dwh.`fact_reddit` (
+CREATE TABLE IF NOT EXISTS reddit_olap_dwh.`fact_reddit` (
   `comment_key` int(8) NOT NULL,
   `author_key` int(8) NOT NULL,
   `reddit_date_key` int(8) NOT NULL,

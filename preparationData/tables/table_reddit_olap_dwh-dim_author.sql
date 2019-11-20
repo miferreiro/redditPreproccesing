@@ -1,4 +1,4 @@
-CREATE TABLE reddit_olap_dwh.`dim_author` (
+CREATE TABLE IF NOT EXISTS reddit_olap_dwh.`dim_author` (
   `author_key` int(8) NOT NULL AUTO_INCREMENT,
   `author_last_update` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
   `author_name` varchar(64) DEFAULT NULL,
