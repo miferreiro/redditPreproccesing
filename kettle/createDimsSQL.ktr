@@ -502,7 +502,7 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>dim_timestamp</from>
+      <from>dim_date</from>
       <to>dim_comment</to>
       <enabled>Y</enabled>
     </hop>
@@ -523,7 +523,7 @@
     <single_statement>N</single_statement>
     <replace_variables>N</replace_variables>
     <quoteString>N</quoteString>
-    <sql>CREATE TABLE reddit_olap_dwh.`dim_author` (
+    <sql>CREATE TABLE IF NOT EXISTS reddit_olap_dwh.`dim_author` (
   `author_key` int(8) NOT NULL AUTO_INCREMENT,
   `author_last_update` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
   `author_name` varchar(64) DEFAULT NULL,
@@ -559,8 +559,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>512</xloc>
-      <yloc>64</yloc>
+      <xloc>704</xloc>
+      <yloc>144</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -580,9 +580,8 @@
     <single_statement>N</single_statement>
     <replace_variables>N</replace_variables>
     <quoteString>N</quoteString>
-    <sql>CREATE TABLE reddit_olap_dwh.`dim_comment` (
+    <sql>CREATE TABLE IF NOT EXISTS reddit_olap_dwh.`dim_comment` (
   `comment_key` int(8) NOT NULL AUTO_INCREMENT,
-  `comment_last_update` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
   `comment_author` varchar(20) DEFAULT NULL,
   `comment_author_cakeday`  varchar(20) DEFAULT NULL,
   `comment_author_flair_type` varchar(20) DEFAULT NULL,
@@ -623,8 +622,55 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>224</xloc>
-      <yloc>64</yloc>
+      <xloc>416</xloc>
+      <yloc>144</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>dim_date</name>
+    <type>ExecSQL</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>reddit_olap_dwh</connection>
+    <execute_each_row>N</execute_each_row>
+    <single_statement>N</single_statement>
+    <replace_variables>N</replace_variables>
+    <quoteString>N</quoteString>
+    <sql> CREATE TABLE IF NOT EXISTS `reddit_olap_dwh`.`dim_date` (
+  `date_key` int(8) NOT NULL,
+  `date` date NOT NULL,
+  `day_number` char(12) NOT NULL,
+  `month_number` tinyint(3) NOT NULL,
+  `year4` smallint(5) NOT NULL,
+  `quarter_name` char(2) NOT NULL,
+  `quarter_number` tinyint(3) NOT NULL,
+  PRIMARY KEY (`date_key`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1</sql>
+    <set_params>N</set_params>
+    <insert_field/>
+    <update_field/>
+    <delete_field/>
+    <read_field/>
+    <arguments>
+    </arguments>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>272</xloc>
+      <yloc>144</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -644,20 +690,19 @@
     <single_statement>N</single_statement>
     <replace_variables>N</replace_variables>
     <quoteString>N</quoteString>
-    <sql>CREATE TABLE reddit_olap_dwh.`dim_subreddit` (
+    <sql>CREATE TABLE IF NOT EXISTS reddit_olap_dwh.`dim_subreddit` (
   `subreddit_key` int(8) NOT NULL AUTO_INCREMENT,
-  `subreddit_last_update` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
+  `subreddit_last_update` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',    
   `subreddit_restrict_posting` boolean DEFAULT NULL,
   `subreddit_free_form_reports` boolean DEFAULT NULL,
   `subreddit_wiki_enabled` boolean DEFAULT NULL,
   `subreddit_display_name` varchar(64) DEFAULT NULL,
-  `subreddit_header_img` varchar(64) DEFAULT NULL,
   `subreddit_title`  varchar(64) DEFAULT NULL,
   `subreddit_active_user_count` int(8) DEFAULT NULL,
   `subreddit_accounts_active` int(8) DEFAULT NULL,
-  `subreddit_public_traffic` boolean DEFAULT NULL,
   `subreddit_subscribers` int(8) DEFAULT NULL,
   `subreddit_emojis_enabled` boolean DEFAULT NULL,
+  `subreddit_advertiser_category` varchar(20) DEFAULT NULL,
   `subreddit_public_description` varchar(200) DEFAULT NULL,
   `subreddit_comment_score_hide_mins` int(8) DEFAULT NULL,
   `subreddit_original_content_tag_enabled` boolean DEFAULT NULL,
@@ -665,19 +710,23 @@
   `subreddit_spoilers_enabled` boolean DEFAULT NULL,
   `subreddit_all_original_content` boolean DEFAULT NULL,
   `subreddit_has_menu_widget` boolean DEFAULT NULL,
-  `subreddit_created_utc` date DEFAULT NULL,
+  `subreddit_wls` int(8) DEFAULT NULL,  
   `subreddit_submission_type` varchar(20) DEFAULT NULL,
   `subreddit_allow_videogifs` boolean DEFAULT NULL,
   `subreddit_collapse_deleted_comments` boolean DEFAULT NULL,
   `subreddit_allow_videos` boolean DEFAULT NULL,
+  `subreddit_submit_text_label` varchar(20) DEFAULT NULL,
   `subreddit_type` varchar(20) DEFAULT NULL,
   `subreddit_show_media`  boolean DEFAULT NULL,
   `subreddit_over18` boolean DEFAULT NULL,
-  `subreddit_description` varchar(200) DEFAULT NULL,
+  `subreddit_description` MEDIUMTEXT DEFAULT NULL,
+  `subreddit_restrict_commenting` boolean DEFAULT NULL,
   `subreddit_allow_images` boolean DEFAULT NULL,
   `subreddit_lang` boolean DEFAULT NULL,
+  `subreddit_whitelist_status` varchar(20) DEFAULT NULL,
+  `subreddit_created_utc` date DEFAULT NULL,
   PRIMARY KEY (`subreddit_key`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;</sql>
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1</sql>
     <set_params>N</set_params>
     <insert_field/>
     <update_field/>
@@ -694,75 +743,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>368</xloc>
-      <yloc>64</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>dim_timestamp</name>
-    <type>ExecSQL</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>reddit_olap_dwh</connection>
-    <execute_each_row>N</execute_each_row>
-    <single_statement>N</single_statement>
-    <replace_variables>N</replace_variables>
-    <quoteString>N</quoteString>
-    <sql>CREATE TABLE `dim_date` (
-  `date_key` int(8) NOT NULL,
-  `date_value` date NOT NULL,
-  `date_short` char(12) NOT NULL,
-  `date_medium` char(16) NOT NULL,
-  `date_long` char(24) NOT NULL,
-  `date_full` char(32) NOT NULL,
-  `day_in_year` smallint(5) NOT NULL,
-  `day_in_month` tinyint(3) NOT NULL,
-  `is_first_day_in_month` char(10) NOT NULL,
-  `is_last_day_in_month` char(10) NOT NULL,
-  `day_abbreviation` char(3) NOT NULL,
-  `day_name` char(12) NOT NULL,
-  `week_in_year` tinyint(3) NOT NULL,
-  `week_in_month` tinyint(3) NOT NULL,
-  `is_first_day_in_week` char(10) NOT NULL,
-  `is_last_day_in_week` char(10) NOT NULL,
-  `month_number` tinyint(3) NOT NULL,
-  `month_abbreviation` char(3) NOT NULL,
-  `month_name` char(12) NOT NULL,
-  `year4` smallint(5) NOT NULL,
-  `quarter_name` char(2) NOT NULL,
-  `quarter_number` tinyint(3) NOT NULL,
-  `year_quarter` char(7) NOT NULL,
-  `year_month_number` char(7) NOT NULL,
-  `year_month_abbreviation` char(8) NOT NULL,
-  PRIMARY KEY (`date_key`),
-  UNIQUE KEY `date` (`date_value`) USING BTREE,
-  UNIQUE KEY `date_value` (`date_value`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;</sql>
-    <set_params>N</set_params>
-    <insert_field/>
-    <update_field/>
-    <delete_field/>
-    <read_field/>
-    <arguments>
-    </arguments>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>80</xloc>
-      <yloc>64</yloc>
+      <xloc>560</xloc>
+      <yloc>144</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

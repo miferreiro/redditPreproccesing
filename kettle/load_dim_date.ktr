@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>load_dim_timestamp</name>
+    <name>load_date</name>
     <description/>
     <extended_description/>
     <trans_version/>
@@ -437,8 +437,8 @@
   <notepads>
     <notepad>
       <note>Generate</note>
-      <xloc>208</xloc>
-      <yloc>64</yloc>
+      <xloc>256</xloc>
+      <yloc>144</yloc>
       <width>66</width>
       <heigth>28</heigth>
       <fontname>Microsoft Sans Serif</fontname>
@@ -458,8 +458,8 @@
     </notepad>
     <notepad>
       <note>Transformation</note>
-      <xloc>160</xloc>
-      <yloc>160</yloc>
+      <xloc>240</xloc>
+      <yloc>240</yloc>
       <width>111</width>
       <heigth>30</heigth>
       <fontname/>
@@ -479,8 +479,8 @@
     </notepad>
     <notepad>
       <note>Load</note>
-      <xloc>192</xloc>
-      <yloc>256</yloc>
+      <xloc>240</xloc>
+      <yloc>336</yloc>
       <width>41</width>
       <heigth>28</heigth>
       <fontname>Microsoft Sans Serif</fontname>
@@ -497,28 +497,6 @@
       <bordercolorgreen>100</bordercolorgreen>
       <bordercolorblue>100</bordercolorblue>
       <drawshadow>N</drawshadow>
-    </notepad>
-    <notepad>
-      <note> language code: spa
-country code: ESP</note>
-      <xloc>496</xloc>
-      <yloc>32</yloc>
-      <width>143</width>
-      <heigth>50</heigth>
-      <fontname>Segoe UI</fontname>
-      <fontsize>9</fontsize>
-      <fontbold>N</fontbold>
-      <fontitalic>N</fontitalic>
-      <fontcolorred>0</fontcolorred>
-      <fontcolorgreen>0</fontcolorgreen>
-      <fontcolorblue>0</fontcolorblue>
-      <backgroundcolorred>255</backgroundcolorred>
-      <backgroundcolorgreen>205</backgroundcolorgreen>
-      <backgroundcolorblue>112</backgroundcolorblue>
-      <bordercolorred>100</bordercolorred>
-      <bordercolorgreen>100</bordercolorgreen>
-      <bordercolorblue>100</bordercolorblue>
-      <drawshadow>Y</drawshadow>
     </notepad>
   </notepads>
   <connection>
@@ -578,28 +556,28 @@ country code: ESP</note>
   </connection>
   <order>
     <hop>
-      <from>Calculate Dimension Attributes 2</from>
-      <to>Load dim_date 2</to>
+      <from>Calculate Dimension Attributes</from>
+      <to>Load dim_date</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
       <from>Day Sequence</from>
-      <to>Calculate Dimension Attributes 2</to>
+      <to>Calculate Dimension Attributes</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Generate 2 years</from>
+      <from>Generate 1 years</from>
       <to>Day Sequence</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>Calculate Dimension Attributes 2</name>
+    <name>Calculate Dimension Attributes</name>
     <type>ScriptValueMod</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
-    <copies>4</copies>
+    <copies>1</copies>
     <partitioning>
       <method>none</method>
       <schema_name/>
@@ -625,57 +603,21 @@ calendar.add(calendar.DAY_OF_MONTH,DaySequence.getInteger() - 1);
 
 //get the calendar date
 var date = new java.util.Date(calendar.getTimeInMillis());
-//en-us example: 9/3/07
-var date_short  = java.text.DateFormat.getDateInstance(
-                      java.text.DateFormat.SHORT
-                  ,   locale
-                  ).format(date);
-//en-us example: Sep 3, 2007 
-var date_medium = java.text.DateFormat.getDateInstance(
-                      java.text.DateFormat.MEDIUM
-                  ,   locale
-                  ).format(date);
-//en-us example: September 3, 2007
-var date_long   = java.text.DateFormat.getDateInstance(
-                      java.text.DateFormat.LONG
-                  ,   locale
-                  ).format(date);
-//en-us example: Monday, September 3, 2007
-var date_full   = java.text.DateFormat.getDateInstance(
-                      java.text.DateFormat.FULL
-                  ,   locale
-                  ).format(date);
 
-//day in year: 1..366
+
 var simpleDateFormat   = java.text.SimpleDateFormat("D",locale);
-var day_in_year        = simpleDateFormat.format(date);
 //day in month: 1..31
 simpleDateFormat.applyPattern("d");
-var day_in_month       = simpleDateFormat.format(date);
-//en-us example: "Monday"
-simpleDateFormat.applyPattern("EEEE");
-var day_name           = simpleDateFormat.format(date);
-//en-us example: "Mon"
-simpleDateFormat.applyPattern("E");
-var day_abbreviation   = simpleDateFormat.format(date);
-//week in year, 1..53
-simpleDateFormat.applyPattern("ww");
-var week_in_year       = simpleDateFormat.format(date);
-//week in month, 1..5
-simpleDateFormat.applyPattern("W");
-var week_in_month      = simpleDateFormat.format(date);
+var day_in_month = simpleDateFormat.format(date);
+
 //month number in year, 1..12
 simpleDateFormat.applyPattern("MM");
-var month_number       = simpleDateFormat.format(date);
-//en-us example: "September"
-simpleDateFormat.applyPattern("MMMM");
-var month_name         = simpleDateFormat.format(date);
-//en-us example: "Sep"
-simpleDateFormat.applyPattern("MMM");
-var month_abbreviation = simpleDateFormat.format(date);
+var month_number = simpleDateFormat.format(date);
+
 //4 digit representation of the year, example:  2007
 simpleDateFormat.applyPattern("yyyy");
-var year4              = "" + simpleDateFormat.format(date);
+var year4 = "" + simpleDateFormat.format(date);
+
 //handling Quarters is a DIY
 var quarter_name = "Q";
 var quarter_number;
@@ -687,55 +629,6 @@ switch(parseInt(month_number)){
 }
 quarter_name += quarter_number;
 
-//get the local yes/no values
-var yes = local_yes.getString();
-var no = local_no.getString();
-
-//initialize for week calculations
-var first_day_of_week = calendar.getFirstDayOfWeek();
-var day_of_week = java.util.Calendar.DAY_OF_WEEK;
-
-//find out if this is the first day of the week
-var is_first_day_in_week;
-if(first_day_of_week==calendar.get(day_of_week)){
-    is_first_day_in_week = yes;
-} else {
-    is_first_day_in_week = no;
-}
-
-//calculate the next day
-calendar.add(calendar.DAY_OF_MONTH,1);
-//get the next calendar date
-var next_day = new java.util.Date(calendar.getTimeInMillis());
-
-//find out if this is the first day of the week
-var is_last_day_in_week;
-if(first_day_of_week==calendar.get(day_of_week)){
-    is_last_day_in_week = yes;
-} else {
-    is_last_day_in_week = no;
-}
-
-//find out if this is the first day of the month
-var is_first_day_of_month;
-if(day_in_month == 1){
-    is_first_day_in_month = yes;
-} else {
-    is_first_day_in_month = no;
-}
-
-//find out if this is the last day in the month
-var is_last_day_of_month;
-if(java.text.SimpleDateFormat("d",locale).format(next_day)==1){
-    is_last_day_in_month = yes;
-} else {
-    is_last_day_in_month = no;
-}
-
-//date = year4 + "-" + month_number + "-" + day_in_month
-var year_quarter            = year4 + "-" + quarter_name;
-var year_month_number       = year4 + "-" + month_number;
-var year_month_abbreviation = year4 + "-" + month_abbreviation;
 
 var date_key = year4 + month_number + (day_in_month&lt;10?"0":"") + day_in_month;</jsScript_script>
       </jsScript>
@@ -750,112 +643,8 @@ var date_key = year4 + month_number + (day_in_month&lt;10?"0":"") + day_in_month
         <replace>N</replace>
       </field>
       <field>
-        <name>date_short</name>
-        <rename>date_short</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>
-      <field>
-        <name>date_medium</name>
-        <rename>date_medium</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>
-      <field>
-        <name>date_long</name>
-        <rename>date_long</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>
-      <field>
-        <name>date_full</name>
-        <rename>date_full</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>
-      <field>
-        <name>day_in_year</name>
-        <rename>day_in_year</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>
-      <field>
-        <name>day_name</name>
-        <rename>day_name</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>
-      <field>
-        <name>day_abbreviation</name>
-        <rename>day_abbreviation</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>
-      <field>
-        <name>month_abbreviation</name>
-        <rename>month_abbreviation</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>
-      <field>
-        <name>month_name</name>
-        <rename>month_name</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>
-      <field>
-        <name>quarter_name</name>
-        <rename>quarter_name</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>
-      <field>
-        <name>year_quarter</name>
-        <rename>year_quarter</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>
-      <field>
-        <name>year_month_abbreviation</name>
-        <rename>year_month_abbreviation</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>
-      <field>
-        <name>is_last_day_in_month</name>
-        <rename>is_last_day_in_month</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>
-      <field>
-        <name>is_first_day_in_month</name>
-        <rename>is_first_day_in_month</rename>
+        <name>month_number</name>
+        <rename>month_number</rename>
         <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
@@ -870,32 +659,8 @@ var date_key = year4 + month_number + (day_in_month&lt;10?"0":"") + day_in_month
         <replace>N</replace>
       </field>
       <field>
-        <name>day_in_month</name>
-        <rename>day_in_month</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>
-      <field>
-        <name>week_in_year</name>
-        <rename>week_in_year</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>
-      <field>
-        <name>week_in_month</name>
-        <rename>week_in_month</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>
-      <field>
-        <name>month_number</name>
-        <rename>month_number</rename>
+        <name>quarter_name</name>
+        <rename>quarter_name</rename>
         <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
@@ -910,24 +675,176 @@ var date_key = year4 + month_number + (day_in_month&lt;10?"0":"") + day_in_month
         <replace>N</replace>
       </field>
       <field>
-        <name>year_month_number</name>
-        <rename>year_month_number</rename>
+        <name>date_key</name>
+        <rename>date_key</rename>
         <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
         <replace>N</replace>
       </field>
       <field>
-        <name>is_last_day_in_week</name>
-        <rename>is_last_day_in_week</rename>
+        <name>day_number</name>
+        <rename>day_number</rename>
         <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
         <replace>N</replace>
       </field>
       <field>
-        <name>is_first_day_in_week</name>
-        <rename>is_first_day_in_week</rename>
+        <name>locale</name>
+        <rename>locale</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>calendar</name>
+        <rename>calendar</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>date</name>
+        <rename>date</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>simpleDateFormat</name>
+        <rename>simpleDateFormat</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>day_in_month</name>
+        <rename>day_in_month</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>month_number</name>
+        <rename>month_number</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>year4</name>
+        <rename>year4</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>quarter_name</name>
+        <rename>quarter_name</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>quarter_number</name>
+        <rename>quarter_number</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>date_key</name>
+        <rename>date_key</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>locale</name>
+        <rename>locale</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>calendar</name>
+        <rename>calendar</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>date</name>
+        <rename>date</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>date_short</name>
+        <rename>date_short</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>simpleDateFormat</name>
+        <rename>simpleDateFormat</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>day_in_month</name>
+        <rename>day_in_month</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>month_number</name>
+        <rename>month_number</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>year4</name>
+        <rename>year4</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>quarter_name</name>
+        <rename>quarter_name</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>quarter_number</name>
+        <rename>quarter_number</rename>
         <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
@@ -951,8 +868,8 @@ var date_key = year4 + month_number + (day_in_month&lt;10?"0":"") + day_in_month
       </output>
     </remotesteps>
     <GUI>
-      <xloc>592</xloc>
-      <yloc>160</yloc>
+      <xloc>640</xloc>
+      <yloc>240</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -986,13 +903,13 @@ var date_key = year4 + month_number + (day_in_month&lt;10?"0":"") + day_in_month
       </output>
     </remotesteps>
     <GUI>
-      <xloc>368</xloc>
-      <yloc>160</yloc>
+      <xloc>416</xloc>
+      <yloc>240</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Generate 2 years</name>
+    <name>Generate 1 years</name>
     <type>RowGenerator</type>
     <description/>
     <distribute>Y</distribute>
@@ -1078,13 +995,13 @@ var date_key = year4 + month_number + (day_in_month&lt;10?"0":"") + day_in_month
       </output>
     </remotesteps>
     <GUI>
-      <xloc>368</xloc>
-      <yloc>64</yloc>
+      <xloc>416</xloc>
+      <yloc>144</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Load dim_date 2</name>
+    <name>Load dim_date</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
@@ -1113,103 +1030,31 @@ var date_key = year4 + month_number + (day_in_month&lt;10?"0":"") + day_in_month
     <return_field/>
     <fields>
       <field>
-        <column_name>date_short</column_name>
-        <stream_name>date_short</stream_name>
-      </field>
-      <field>
-        <column_name>date_medium</column_name>
-        <stream_name>date_medium</stream_name>
-      </field>
-      <field>
-        <column_name>day_abbreviation</column_name>
-        <stream_name>day_abbreviation</stream_name>
-      </field>
-      <field>
-        <column_name>month_abbreviation</column_name>
-        <stream_name>month_abbreviation</stream_name>
-      </field>
-      <field>
-        <column_name>month_name</column_name>
-        <stream_name>month_name</stream_name>
-      </field>
-      <field>
-        <column_name>quarter_name</column_name>
-        <stream_name>quarter_name</stream_name>
-      </field>
-      <field>
-        <column_name>year_quarter</column_name>
-        <stream_name>year_quarter</stream_name>
-      </field>
-      <field>
-        <column_name>year_month_abbreviation</column_name>
-        <stream_name>year_month_abbreviation</stream_name>
+        <column_name>month_number</column_name>
+        <stream_name>month_number</stream_name>
       </field>
       <field>
         <column_name>year4</column_name>
         <stream_name>year4</stream_name>
       </field>
       <field>
-        <column_name>week_in_year</column_name>
-        <stream_name>week_in_year</stream_name>
-      </field>
-      <field>
-        <column_name>week_in_month</column_name>
-        <stream_name>week_in_month</stream_name>
-      </field>
-      <field>
-        <column_name>month_number</column_name>
-        <stream_name>month_number</stream_name>
+        <column_name>quarter_name</column_name>
+        <stream_name>quarter_name</stream_name>
       </field>
       <field>
         <column_name>quarter_number</column_name>
         <stream_name>quarter_number</stream_name>
       </field>
       <field>
-        <column_name>year_month_number</column_name>
-        <stream_name>year_month_number</stream_name>
-      </field>
-      <field>
         <column_name>date_key</column_name>
         <stream_name>date_key</stream_name>
       </field>
       <field>
-        <column_name>date_long</column_name>
-        <stream_name>date_long</stream_name>
-      </field>
-      <field>
-        <column_name>date_full</column_name>
-        <stream_name>date_full</stream_name>
-      </field>
-      <field>
-        <column_name>day_name</column_name>
-        <stream_name>day_name</stream_name>
-      </field>
-      <field>
-        <column_name>day_in_year</column_name>
-        <stream_name>day_in_year</stream_name>
-      </field>
-      <field>
-        <column_name>is_last_day_in_month</column_name>
-        <stream_name>is_last_day_in_month</stream_name>
-      </field>
-      <field>
-        <column_name>is_first_day_in_month</column_name>
-        <stream_name>is_first_day_in_month</stream_name>
-      </field>
-      <field>
-        <column_name>is_last_day_in_week</column_name>
-        <stream_name>is_last_day_in_week</stream_name>
-      </field>
-      <field>
-        <column_name>is_first_day_in_week</column_name>
-        <stream_name>is_first_day_in_week</stream_name>
-      </field>
-      <field>
-        <column_name>day_in_month</column_name>
+        <column_name>day_number</column_name>
         <stream_name>day_in_month</stream_name>
       </field>
       <field>
-        <column_name>date_value</column_name>
+        <column_name>date</column_name>
         <stream_name>date</stream_name>
       </field>
     </fields>
@@ -1222,8 +1067,8 @@ var date_key = year4 + month_number + (day_in_month&lt;10?"0":"") + day_in_month
       </output>
     </remotesteps>
     <GUI>
-      <xloc>368</xloc>
-      <yloc>240</yloc>
+      <xloc>416</xloc>
+      <yloc>320</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

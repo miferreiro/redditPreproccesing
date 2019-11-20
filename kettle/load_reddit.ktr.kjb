@@ -309,13 +309,13 @@
       <attributes_kjc/>
     </entry>
     <entry>
-      <name>load_dim_timestamp</name>
+      <name>load_dim_date</name>
       <description/>
       <type>TRANS</type>
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/load_dim_timestamp.ktr</filename>
+      <filename>${Internal.Entry.Current.Directory}/load_dim_date.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -380,7 +380,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>416</xloc>
+      <xloc>400</xloc>
       <yloc>64</yloc>
       <attributes_kjc/>
     </entry>
@@ -589,7 +589,7 @@
   </entries>
   <hops>
     <hop>
-      <from>load_dim_timestamp</from>
+      <from>load_dim_date</from>
       <to>load_dim_user</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -635,7 +635,7 @@
     </hop>
     <hop>
       <from>createDimsSQL</from>
-      <to>load_dim_timestamp</to>
+      <to>load_dim_date</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
