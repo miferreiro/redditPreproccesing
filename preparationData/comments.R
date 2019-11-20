@@ -52,7 +52,7 @@ for (file in files) {
   }
   message(green("[INFO] Writting csv to", filesName[pos]))
   write_csv(csv = csv,
-            output.path = paste0("prepararedData/comments_v2/", filesName[pos]))
+            output.path = paste0("prepararedData/comments/", filesName[pos]))
 
   pos <- pos + 1
   message(green("[INFO] Writting csv to all_comments.csv"))
