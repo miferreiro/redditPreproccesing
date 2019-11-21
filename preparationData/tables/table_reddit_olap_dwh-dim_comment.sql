@@ -1,6 +1,5 @@
 CREATE TABLE IF NOT EXISTS reddit_olap_dwh.`dim_comment` (
   `comment_key` int(8) NOT NULL AUTO_INCREMENT,
-  `comment_last_update` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
   `comment_author` varchar(20) DEFAULT NULL,
   `comment_author_cakeday`  varchar(20) DEFAULT NULL,
   `comment_author_flair_type` varchar(20) DEFAULT NULL,

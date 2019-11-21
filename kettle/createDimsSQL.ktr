@@ -525,7 +525,6 @@
     <quoteString>N</quoteString>
     <sql>CREATE TABLE IF NOT EXISTS reddit_olap_dwh.`dim_author` (
   `author_key` int(8) NOT NULL AUTO_INCREMENT,
-  `author_last_update` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',
   `author_name` varchar(64) DEFAULT NULL,
   `author_is_employee` boolean DEFAULT NULL,
   `author_pref_show_snoovatar` boolean DEFAULT NULL,
@@ -559,8 +558,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>704</xloc>
-      <yloc>144</yloc>
+      <xloc>480</xloc>
+      <yloc>32</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -590,6 +589,9 @@
   `comment_can_gild` boolean DEFAULT NULL,
   `comment_controversiality` int(8) DEFAULT NULL,
   `comment_created_utc` datetime DEFAULT NULL,
+  `comment_day_number` char(12) DEFAULT NULL,
+  `comment_month_number` tinyint(3) DEFAULT NULL,
+  `comment_year4` smallint(5) DEFAULT NULL,
   `comment_distinguished` varchar(20) DEFAULT NULL,
   `comment_gilded` int(8) DEFAULT NULL,
   `comment_is_submitter` boolean DEFAULT NULL,
@@ -622,8 +624,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>416</xloc>
-      <yloc>144</yloc>
+      <xloc>192</xloc>
+      <yloc>32</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -669,8 +671,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>272</xloc>
-      <yloc>144</yloc>
+      <xloc>48</xloc>
+      <yloc>32</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -692,21 +694,20 @@
     <quoteString>N</quoteString>
     <sql>CREATE TABLE IF NOT EXISTS reddit_olap_dwh.`dim_subreddit` (
   `subreddit_key` int(8) NOT NULL AUTO_INCREMENT,
-  `subreddit_last_update` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',    
   `subreddit_restrict_posting` boolean DEFAULT NULL,
   `subreddit_free_form_reports` boolean DEFAULT NULL,
   `subreddit_wiki_enabled` boolean DEFAULT NULL,
   `subreddit_display_name` varchar(64) DEFAULT NULL,
-  `subreddit_title`  varchar(64) DEFAULT NULL,
+  `subreddit_title`  varchar(200) DEFAULT NULL,
   `subreddit_active_user_count` int(8) DEFAULT NULL,
   `subreddit_accounts_active` int(8) DEFAULT NULL,
   `subreddit_subscribers` int(8) DEFAULT NULL,
   `subreddit_emojis_enabled` boolean DEFAULT NULL,
   `subreddit_advertiser_category` varchar(20) DEFAULT NULL,
-  `subreddit_public_description` varchar(200) DEFAULT NULL,
+  `subreddit_public_description` MEDIUMTEXT DEFAULT NULL,
   `subreddit_comment_score_hide_mins` int(8) DEFAULT NULL,
   `subreddit_original_content_tag_enabled` boolean DEFAULT NULL,
-  `subreddit_submit_text` varchar(200) DEFAULT NULL,
+  `subreddit_submit_text` MEDIUMTEXT DEFAULT NULL,
   `subreddit_spoilers_enabled` boolean DEFAULT NULL,
   `subreddit_all_original_content` boolean DEFAULT NULL,
   `subreddit_has_menu_widget` boolean DEFAULT NULL,
@@ -715,14 +716,14 @@
   `subreddit_allow_videogifs` boolean DEFAULT NULL,
   `subreddit_collapse_deleted_comments` boolean DEFAULT NULL,
   `subreddit_allow_videos` boolean DEFAULT NULL,
-  `subreddit_submit_text_label` varchar(20) DEFAULT NULL,
+  `subreddit_submit_text_label` varchar(200) DEFAULT NULL,
   `subreddit_type` varchar(20) DEFAULT NULL,
   `subreddit_show_media`  boolean DEFAULT NULL,
   `subreddit_over18` boolean DEFAULT NULL,
   `subreddit_description` MEDIUMTEXT DEFAULT NULL,
   `subreddit_restrict_commenting` boolean DEFAULT NULL,
   `subreddit_allow_images` boolean DEFAULT NULL,
-  `subreddit_lang` boolean DEFAULT NULL,
+  `subreddit_lang` varchar(20) DEFAULT NULL,
   `subreddit_whitelist_status` varchar(20) DEFAULT NULL,
   `subreddit_created_utc` date DEFAULT NULL,
   PRIMARY KEY (`subreddit_key`)
@@ -743,8 +744,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>560</xloc>
-      <yloc>144</yloc>
+      <xloc>336</xloc>
+      <yloc>32</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

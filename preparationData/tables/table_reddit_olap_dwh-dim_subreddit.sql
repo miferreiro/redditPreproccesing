@@ -1,6 +1,5 @@
 CREATE TABLE IF NOT EXISTS reddit_olap_dwh.`dim_subreddit` (
   `subreddit_key` int(8) NOT NULL AUTO_INCREMENT,
-  `subreddit_last_update` datetime NOT NULL DEFAULT '1970-01-01 00:00:00',    
   `subreddit_restrict_posting` boolean DEFAULT NULL,
   `subreddit_free_form_reports` boolean DEFAULT NULL,
   `subreddit_wiki_enabled` boolean DEFAULT NULL,

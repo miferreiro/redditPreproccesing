@@ -342,18 +342,18 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>272</xloc>
+      <xloc>256</xloc>
       <yloc>64</yloc>
       <attributes_kjc/>
     </entry>
     <entry>
-      <name>load_dim_user</name>
+      <name>load_dim_author</name>
       <description/>
       <type>TRANS</type>
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/load_dim_user.ktr</filename>
+      <filename>${Internal.Entry.Current.Directory}/load_dim_author.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -380,7 +380,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>400</xloc>
+      <xloc>384</xloc>
       <yloc>64</yloc>
       <attributes_kjc/>
     </entry>
@@ -590,7 +590,7 @@
   <hops>
     <hop>
       <from>load_dim_date</from>
-      <to>load_dim_user</to>
+      <to>load_dim_author</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -598,7 +598,7 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>load_dim_user</from>
+      <from>load_dim_author</from>
       <to>load_dim_subreddit</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
