@@ -508,18 +508,28 @@
     <single_statement>N</single_statement>
     <replace_variables>N</replace_variables>
     <quoteString>N</quoteString>
-    <sql>CREATE TABLE reddit_olap_dwh.`fact_reddit` (
+    <sql>CREATE TABLE IF NOT EXISTS reddit_olap_dwh.`fact_reddit` (
+  `date_key` int(8) DEFAULT NULL,
   `comment_key` int(8) NOT NULL,
   `author_key` int(8) NOT NULL,
-  `reddit_date_key` int(8) NOT NULL,
   `subreddit_key` int(8) NOT NULL,
-  `count_comments` int(8) DEFAULT NULL,
-  `reddit_last_update` datetime DEFAULT NULL,
-  `reddit_id` int(11) DEFAULT NULL,
-  KEY `dim_comment_fact_reddit_fk` (`comment_key`),
-  KEY `dim_author_fact_reddit_fk` (`author_key`),
-  KEY `dim_date_fact_reddit_fk` (`reddit_date_key`),
-  KEY `dim_subreddit_fact_reddit_fk` (`subreddit_key`)
+  `comment_controversiality` int(8) DEFAULT NULL,
+  `comment_gilded` int(8) DEFAULT NULL,
+  `comment_reply_delay` int(8) DEFAULT NULL,
+  `comment_score` int(8) DEFAULT NULL,
+  `comment_total_awards_received` int(8) DEFAULT NULL,
+  `subreddit_active_user_count` int(8) DEFAULT NULL,
+  `subreddit_accounts_active` int(8) DEFAULT NULL,
+  `subreddit_subscribers` int(8) DEFAULT NULL,
+  `subreddit_comment_score_hide_mins` int(8) DEFAULT NULL,
+  `author_link_karma` int(8) DEFAULT NULL,
+  `author_comment_karma` int(8) DEFAULT NULL,
+  `author_subscribers` int(8) DEFAULT NULL,
+  PRIMARY KEY (date_key, comment_key, author_key, subreddit_key),
+  FOREIGN KEY (date_key) REFERENCES dim_date(date_key), 
+  FOREIGN KEY (comment_key) REFERENCES dim_comment(comment_key),
+  FOREIGN KEY (author_key) REFERENCES dim_author(author_key),
+  FOREIGN KEY (subreddit_key) REFERENCES dim_subreddit(subreddit_key)	
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;</sql>
     <set_params>N</set_params>
     <insert_field/>
@@ -537,8 +547,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>160</xloc>
-      <yloc>80</yloc>
+      <xloc>96</xloc>
+      <yloc>48</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
