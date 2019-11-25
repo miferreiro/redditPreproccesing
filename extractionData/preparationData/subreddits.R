@@ -1,10 +1,10 @@
-sources <- c("configurations/pkgChecker.R",
+sources <- c("extractionData/configurations/pkgChecker.R",
              "util/write_csv.R",
              "util/read_csv.R")
 for (s in sources) suppressMessages(source(s))
 
-files <- list.files("data/subreddits", all.files = T, recursive = T, include.dirs = F, full.names = T)
-filesName <- list.files("data/subreddits", all.files = T, recursive = T, include.dirs = F)
+files <- list.files("extractionData/data/subreddits", all.files = T, recursive = T, include.dirs = F, full.names = T)
+filesName <- list.files("extractionData/data/subreddits", all.files = T, recursive = T, include.dirs = F)
 pos <- 1
 for (file in files) {
 
@@ -105,6 +105,6 @@ for (file in files) {
 
   message(green("[INFO] Writting csv to", filesName[pos]))
   write_csv(csv = csv,
-            output.path = paste0("prepararedData/subreddits/", filesName[pos]))
+            output.path = paste0("extractionData/prepararedData/subreddits/", filesName[pos]))
   pos <- pos + 1
 }

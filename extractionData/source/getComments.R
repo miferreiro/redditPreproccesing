@@ -1,4 +1,4 @@
-sources <- c("configurations/pkgChecker.R",  "util/write_csv.R")
+sources <- c("extractionData/configurations/pkgChecker.R",  "util/write_csv.R")
 for (s in sources) { suppressMessages(source(s)) }
 
 non_recs <- function(x) x[!sapply(x, is.recursive)]
@@ -30,7 +30,7 @@ getComments <- function(subreddits,
              "subreddit_type", "updated_utc", "user_removed",  "total_awards_received")
   total.posts <- 0
   for (subreddit in subreddits) {
-    file <- file.path("data", "comments", paste0("comments_", subreddit, ".csv"))
+    file <- file.path("extractionData","data", "comments", paste0("comments_", subreddit, ".csv"))
     actual.date <- start.date
     while (actual.date < end.date) {
       url <- 'https://api.pushshift.io/reddit/comment/search?'

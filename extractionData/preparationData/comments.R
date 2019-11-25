@@ -1,10 +1,10 @@
-sources <- c("configurations/pkgChecker.R",
+sources <- c("extractionData/configurations/pkgChecker.R",
              "util/write_csv.R",
              "util/read_csv.R")
 for (s in sources) suppressMessages(source(s))
 
-files <- list.files("data/comments", all.files = T, recursive = T, include.dirs = F, full.names = T)
-filesName <- list.files("data/comments", all.files = T, recursive = T, include.dirs = F)
+files <- list.files("extractionData/data/comments", all.files = T, recursive = T, include.dirs = F, full.names = T)
+filesName <- list.files("extractionData/data/comments", all.files = T, recursive = T, include.dirs = F)
 pos <- 1
 filesName <- filesName[order(file.info(files)$size)]
 files <- files[order(file.info(files)$size)]
@@ -52,12 +52,12 @@ for (file in files) {
   }
   message(green("[INFO] Writting csv to", filesName[pos]))
   write_csv(csv = csv,
-            output.path = paste0("prepararedData/comments/", filesName[pos]))
+            output.path = paste0("extractionData/prepararedData/comments/", filesName[pos]))
 
   pos <- pos + 1
   message(green("[INFO] Writting csv to all_comments.csv"))
   write_csv(csv = csv,
-            output.path = paste0("prepararedData/",
+            output.path = paste0("extractionData/prepararedData/",
                                  "all_comments.csv"),append = T)
 }
 

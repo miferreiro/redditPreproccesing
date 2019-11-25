@@ -1,10 +1,10 @@
 non_recs <- function(x)  x[!sapply(x, is.recursive)]
-sources <- c("configurations/pkgChecker.R", "util/authentication.R", "util/write_csv.R", "util/read_csv.R", "util/refresh.R")
+sources <- c("extractionData/configurations/pkgChecker.R", "util/authentication.R", "util/write_csv.R", "util/read_csv.R", "util/refresh.R")
 for (s in sources) suppressMessages(source(s))
 if (file.exists(".httr-oauth") &&
     difftime(Sys.time(), file.info(".httr-oauth")$mtime, units = c("mins")) > 60) file.remove(".httr-oauth")
 
-configuration.file <- read.ini("configurations/configurations_subreddits.ini")
+configuration.file <- read.ini("extractionData/configurations/configurations_subreddits.ini")
 subreddits <- c("Fitness", "nutrition", "bodyweightfitness", "homegym",
                 "xxfitness", "loseit", "sugarlifestyleforum", "getdisciplined", "ketogains",
                 "stopdrinkingfitness", "weightroom", "bodybuilding")
@@ -157,14 +157,12 @@ lapply(subreddits, function(subreddit, token) {
   info.subreddits.data[1, "user_is_contributor"] <- content$data$user_is_contributor
 
   write_csv(info.subreddits.data,
-            file.path("data", "subreddits", paste0("subreddits_info.csv")))
+            file.path("extractionData","data", "subreddits", paste0("subreddits_info.csv")))
 
 
   message("[INFO] Quering (", num, " - ", Sys.time(), ") -> ", paste0(base, subreddit, endbase),
-          " to ", file.path("data", "subreddits", paste0("subreddits_info.csv")))
+          " to ", file.path("extractionData","data", "subreddits", paste0("subreddits_info.csv")))
   num <<- num + 1
   num.request <<- num.request + 1
 }, token)
 
-# b <- read_csv("data/subreddits/subreddits_info.csv")
-# View(b)

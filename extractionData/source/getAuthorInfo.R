@@ -1,9 +1,9 @@
-sources <- c("configurations/pkgChecker.R", "util/authentication.R", "util/write_csv.R", "util/read_csv.R", "util/refresh.R")
+sources <- c("extractionData/configurations/pkgChecker.R", "util/authentication.R", "util/write_csv.R", "util/read_csv.R", "util/refresh.R")
 for (s in sources) suppressMessages(source(s))
 if (file.exists(".httr-oauth") &&
     difftime(Sys.time(),file.info(".httr-oauth")$mtime, units = c("mins")) > 60) file.remove(".httr-oauth")
 
-configuration.file <- read.ini("configurations/configurations_authors.ini")
+configuration.file <- read.ini("extractionData/configurations/configurations_authors.ini")
 csvs.files <- list.files(configuration.file$csvs$csvs.folder,
                          include.dirs = F,
                          full.names = T)
@@ -110,10 +110,10 @@ for (csv in csvs.files) {
 
 }
       write_csv(info.authors.data,
-                file.path("data", "authors", paste0("authors_info_",  basename(csv))))
+                file.path("extractionData", "data", "authors", paste0("authors_info_",  basename(csv))))
 
       message("[INFO] Quering (", num, " - ", Sys.time(), ") -> ", paste0(base, author, endbase),
-              " to ", file.path("data", "authors", paste0("authors_info_",  basename(csv))))
+              " to ", file.path("extractionData", "data", "authors", paste0("authors_info_",  basename(csv))))
       num <<- num + 1
       num.request <<- num.request + 1
 

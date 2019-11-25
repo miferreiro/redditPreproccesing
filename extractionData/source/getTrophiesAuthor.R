@@ -1,9 +1,9 @@
-sources <- c("configurations/pkgChecker.R", "util/authentication.R", "util/write_csv.R", "util/read_csv.R", "util/refresh.R")
+sources <- c("extractionData/configurations/pkgChecker.R", "util/authentication.R", "util/write_csv.R", "util/read_csv.R", "util/refresh.R")
 for (s in sources) suppressMessages(source(s))
 if (file.exists(".httr-oauth") &&
     difftime(Sys.time(),file.info(".httr-oauth")$mtime, units = c("mins")) > 60) file.remove(".httr-oauth")
 
-configuration.file <- read.ini("configurations/configurations_trophies.ini")
+configuration.file <- read.ini("extractionData/configurations/configurations_trophies.ini")
 csvs.files <- list.files(configuration.file$csvs$csvs.folder,include.dirs = F,full.names = T)
 #to get permament token: appends on url &duration=permanent
 token <<- authentication(configuration.file$reddit$client.id, configuration.file$reddit$client.secret)
@@ -14,7 +14,7 @@ endbase <- configuration.file$reddit$endbase
 initial.auth <<- Sys.time()
 
 # csvs.files <- c("data/comments/comments_ketogains.csv", "data/comments/comments_homegym.csv")
-csvs.files <- c("data/comments/comments_nutrition.csv")
+csvs.files <- c("extractionData/data/comments/comments_nutrition.csv")
 
 for (csv in csvs.files) {
   message(green("[INFO] Procesing ", csv))
@@ -62,16 +62,12 @@ for (csv in csvs.files) {
       info.authors.data[1, "num_trophies"] <- length(content$data$trophies)
 
       write_csv(info.authors.data,
-                file.path("data", "trophies", paste0("num_trophies_",  basename(csv))))
+                file.path("extractionData","data", "trophies", paste0("num_trophies_",  basename(csv))))
 
       message("[INFO] Quering (", num, " - ", Sys.time(), ") -> ", paste0(base, author, endbase),
-              " to ", file.path("data", "trophies", paste0("num_trophies_",  basename(csv))))
+              " to ", file.path("extractionData","data", "trophies", paste0("num_trophies_",  basename(csv))))
       num <<- num + 1
       num.request <<- num.request + 1
     }
   }, token)
 }
-
-# a <- read_csv("data/author_info_stopdrinkingfitness.csv")
-# a <- read_csv("data/author_info_bodybuilding.csv")
-# b <- read_csv("data/num_trophies_ketogains.csv")
