@@ -1209,7 +1209,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <filename>C:\Users\Miguel\Desktop\reddit\redditPreproccesing\prepararedData\all_authors.csv</filename>
+    <filename>C:\Users\Miguel\Desktop\reddit\redditPreproccesing\extractionData\prepararedData\all_authors.csv</filename>
     <filename_field>path</filename_field>
     <rownum_field/>
     <include_filename>N</include_filename>

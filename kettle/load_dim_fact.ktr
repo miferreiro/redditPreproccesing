@@ -434,6 +434,28 @@
     <is_key_private>N</is_key_private>
   </info>
   <notepads>
+    <notepad>
+      <note># Description: Inserts data into the fact table
+# Name file: load_dim_fact.ktr</note>
+      <xloc>384</xloc>
+      <yloc>16</yloc>
+      <width>304</width>
+      <heigth>50</heigth>
+      <fontname>Segoe UI</fontname>
+      <fontsize>9</fontsize>
+      <fontbold>N</fontbold>
+      <fontitalic>N</fontitalic>
+      <fontcolorred>0</fontcolorred>
+      <fontcolorgreen>0</fontcolorgreen>
+      <fontcolorblue>0</fontcolorblue>
+      <backgroundcolorred>255</backgroundcolorred>
+      <backgroundcolorgreen>205</backgroundcolorgreen>
+      <backgroundcolorblue>112</backgroundcolorblue>
+      <bordercolorred>100</bordercolorred>
+      <bordercolorgreen>100</bordercolorgreen>
+      <bordercolorblue>100</bordercolorblue>
+      <drawshadow>Y</drawshadow>
+    </notepad>
   </notepads>
   <connection>
     <name>reddit_olap_dwh</name>
@@ -492,28 +514,28 @@
   </connection>
   <order>
     <hop>
-      <from>Database lookup (author_name)</from>
-      <to>Database lookup(dim_subreddit)</to>
+      <from>Database lookup (author_key)</from>
+      <to>Database lookup(subreddit_key)</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Database lookup(dim_subreddit)</from>
+      <from>Database lookup(subreddit_key)</from>
       <to>Table output (fact_reddit)</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Table input (COMMENT)</from>
-      <to>Database lookup (dim_date)</to>
+      <from>Table input (dim_comment)</from>
+      <to>Database lookup (date_key)</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Database lookup (dim_date)</from>
-      <to>Database lookup (author_name)</to>
+      <from>Database lookup (date_key)</from>
+      <to>Database lookup (author_key)</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>Database lookup (author_name)</name>
+    <name>Database lookup (author_key)</name>
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
@@ -573,13 +595,13 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>544</xloc>
-      <yloc>80</yloc>
+      <xloc>496</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Database lookup (dim_date)</name>
+    <name>Database lookup (date_key)</name>
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
@@ -602,19 +624,19 @@
       <key>
         <name>comment_year4</name>
         <field>year4</field>
-        <condition/>
+        <condition>=</condition>
         <name2/>
       </key>
       <key>
         <name>comment_month_number</name>
         <field>month_number</field>
-        <condition/>
+        <condition>=</condition>
         <name2/>
       </key>
       <key>
         <name>comment_day_number</name>
         <field>day_number</field>
-        <condition/>
+        <condition>=</condition>
         <name2/>
       </key>
       <value>
@@ -633,13 +655,13 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>288</xloc>
-      <yloc>80</yloc>
+      <xloc>272</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Database lookup(dim_subreddit)</name>
+    <name>Database lookup(subreddit_key)</name>
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
@@ -705,13 +727,13 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>800</xloc>
-      <yloc>80</yloc>
+      <xloc>736</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Table input (COMMENT)</name>
+    <name>Table input (dim_comment)</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -752,7 +774,7 @@ FROM dim_comment
     </remotesteps>
     <GUI>
       <xloc>80</xloc>
-      <yloc>80</yloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -859,8 +881,8 @@ FROM dim_comment
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1056</xloc>
-      <yloc>80</yloc>
+      <xloc>992</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
