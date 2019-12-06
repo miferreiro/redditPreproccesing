@@ -1,8 +1,8 @@
-source("EC/R/clasification/pkgChecker.R")
+source("EC/R/association/pkgChecker.R")
 source("util/read_csv.R")
 source("EC/R/association/transformColumns.R")
 csv <- read_csv(csv = "EC/R/association/files/outputPreprocesing.csv")
-csv <- csv[1:(dim(csv)[1]/2),]
+csv <- csv[1:(dim(csv)[1]/4),]
 
 message(green("[INFO] Applying tm_map..."))
 csv.corpus <- VCorpus(VectorSource(csv$data))
@@ -44,6 +44,16 @@ data.frame.dtm <- data.frame.dtm %>%
   transformColums("langpropname")
 
 message(green("[INFO] Starting association"))
-df.rules <- as(data.frame(lapply(data.frame.dtm, as.character), stringsAsFactors=T), "transactions")
 
-rules <- apriori(df.rules, parameter = list(support = 0.01, confidence = 0.5))
+df.rules <- as(data.frame(lapply(data.frame.dtm, as.character), stringsAsFactors=T), "transactions")
+# rules <- apriori(df.rules, parameter = list(support = 0.01, confidence = 0.5))
+rules <- apriori(df.rules, parameter = list(support = 0.01, confidence = 0.8, maxlen = 3, target = "rules"))
+# rules <- apriori (data=df.rules, parameter=list (supp=0.001,conf = 0.08), 
+#                   appearance = list (default="lhs",rhs="healthy"), control = list (verbose=F))
+
+rules_unique <- rules[-which(colSums(is.subset(rules, rules)) > 1)]
+
+inspect(rules_unique)
+
+rules_lift <- sort(rules, by = "lift", decreasing = TRUE) 
+plot(rules, method = "graph", control = list(type = "items"))
