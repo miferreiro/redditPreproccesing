@@ -1,5 +1,6 @@
 packages.list <- c("magrittr", "tm", "pipeR","tokenizers", "FSelector", "kernlab", "caret",
-                   "tidyverse", "recipes", "rlist", "dplyr", "crayon", "arules", "arulesViz")
+                   "tidyverse", "recipes", "rlist", "dplyr", "crayon", "arules", "arulesViz", 
+                   "textstem", "textclean", "rCBA", "quanteda", "qdapDictionaries","arulesViz")
 message("[PkgChecker][INFO] Package Manager")
 
 checkPackages <- function(packages){
