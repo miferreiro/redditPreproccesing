@@ -1,5 +1,3 @@
-source("util/read_csv.R")
-
 RedditFactory <- R6Class(
   "RedditFactory",
   inherit = InstanceFactory,
@@ -16,7 +14,6 @@ RedditFactory <- R6Class(
       switch(tools::file_ext(path),
              `csv` =   {
                csv <- read_csv(path)
-               csv <- csv[54854:dim(csv)[1],]
                return(unlist(apply(
                  X = csv, 1,
                  FUN = function(row) {
@@ -24,11 +21,6 @@ RedditFactory <- R6Class(
                                       row["author"],
                                       row["body"],
                                       row["created_utc"],
-                                      row["distinguised"],
-                                      row["is_submiter"],
-                                      row["mod_removed"],
-                                      row["no_follow"],
-                                      row["reply_delay"],
                                       row["score"],
                                       row["subreddit"])
                  }

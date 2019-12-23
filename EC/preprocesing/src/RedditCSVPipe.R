@@ -27,8 +27,6 @@ RedditCSVPipe <- R6Class(
 
     pipe = function(instance, withData = TRUE, withSource = TRUE) {
 
-      outPutPath <- read.ini(Bdpar[["private_fields"]][["configurationFilePath"]])$CSVPath$outPutTeeCSVPipePath
-
       if (!"Instance" %in% class(instance)) {
         stop("[RedditCSVPipe][pipe][Error] Checking the type of the variable: instance ", class(instance))
       }
@@ -40,6 +38,11 @@ RedditCSVPipe <- R6Class(
       if (!"logical" %in% class(withData)) {
         stop("[RedditCSVPipe][pipe][Error] Checking the type of the variable: withData ", class(withData))
       }
+
+      outPutPath <- read.ini(Bdpar[["private_fields"]][["configurationFilePath"]])$CSVPath$outPutTeeCSVPipePath
+      outPutPath <- paste0(outPutPath,
+                           instance$getSpecificProperty("subreddit"),
+                           "_september.csv")
 
       if (!"character" %in% class(outPutPath)) {
         stop("[RedditCSVPipe][pipe][Error] Checking the type of the variable: outPutPath ", class(outPutPath))

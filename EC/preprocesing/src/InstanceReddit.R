@@ -1,4 +1,4 @@
-InstanceReddit <- R6::R6Class(
+InstanceReddit <- R6Class(
   classname = "InstanceReddit",
   inherit = bdpar::Instance,
   public = list(
@@ -6,11 +6,6 @@ InstanceReddit <- R6::R6Class(
                           author,
                           body,
                           created_utc,
-                          distinguised,
-                          is_submiter,
-                          mod_removed,
-                          no_follow,
-                          reply_delay,
                           score,
                           subreddit) {
 
@@ -22,14 +17,9 @@ InstanceReddit <- R6::R6Class(
       super$initialize(path)
       super$addProperties(author, "author")
       super$addProperties(gsub(pattern = "\n+",replacement = " ", x = body), "body")
-      # super$addProperties(created_utc, "created_utc")
-      # super$addProperties(distinguised, "distinguised")
-      # super$addProperties(is_submiter, "is_submiter")
-      # super$addProperties(mod_removed, "mod_removed")
-      # super$addProperties(no_follow, "no_follow")
-      # super$addProperties(reply_delay, "reply_delay")
+      super$addProperties(created_utc, "created_utc")
       super$addProperties(score, "score")
-      # super$addProperties(subreddit, "subreddit")
+      super$addProperties(subreddit, "subreddit")
     },
     obtainSource = function() {
       super$setSource(super$getSpecificProperty("body"))

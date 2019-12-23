@@ -1,4 +1,4 @@
-Bdpar$proccess_files <- function(filesPath,
+Bdpar$public_methods$proccess_files <- function(filesPath,
                                  pipe = SerialPipe$new(),
                                  instanceFactory = InstanceFactory$new()) {
 
@@ -15,7 +15,7 @@ Bdpar$proccess_files <- function(filesPath,
   Files <- list.files(path = filesPath, recursive = TRUE, full.names = TRUE, all.files = TRUE)
   InstancesList <- sapply(Files, instanceFactory$createInstance)
   message("[Bdpar][proccess_files][Info] ", "Has been created: ", length(unlist(InstancesList))," instances.\n")
-  listInstances <- sapply(InstancesList, pipe$pipeAll)
+  listInstances <- sapply(unlist(InstancesList), pipe$pipeAll)
 
   return(listInstances)
 }
