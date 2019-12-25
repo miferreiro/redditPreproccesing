@@ -28,7 +28,7 @@ getComments <- function(subreddits,
              "user_removed",  "total_awards_received")
   total.posts <- 0
   for (subreddit in subreddits) {
-    file <- file.path(paste0("comments_", subreddit, ".csv"))
+    file <- file.path(paste0("comments_", subreddit, "_september.csv"))
     actual.date <- start.date
     while (actual.date < end.date) {
       url <- 'https://api.pushshift.io/reddit/comment/search?'

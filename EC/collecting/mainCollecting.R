@@ -10,8 +10,8 @@ getComments(subreddits = c("Fitness", "loseit", "bodybuilding", "xxfitness",
                            "bodyweightfitness", "weightroom", "nutrition",
                            "getdisciplined", "homegym", "ketogains"),
             start.date = as.numeric(as.POSIXlt(x = "2019-09-01 00:00:00", tz = "CET")),
-            end.date = as.numeric(as.POSIXlt(x = "2019-10-01 00:00:00", tz = "CET")),
-            num.comments = 200)
+            end.date = as.numeric(as.POSIXlt(x = "2019-09-30 00:00:00", tz = "CET")),
+            num.comments = 1000)
 rm(getComments)
 rm(non_recs)
 #Start process to clean the content of some fields
