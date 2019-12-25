@@ -1,6 +1,4 @@
-packages.list <- c("magrittr", "tm", "pipeR","tokenizers", "FSelector", "kernlab", "caret",
-                   "tidyverse", "recipes", "rlist", "dplyr", "crayon",
-                   "textstem", "textclean", "rCBA", "quanteda", "qdapDictionaries", "cluster", "factoextra")
+packages.list <- c("crayon", "ggplot2", "wordcloud", "factoextra", "cluster", "fpc")
 message("[Clustering][PkgChecker][INFO] Package Manager")
 
 checkPackages <- function(packages){
