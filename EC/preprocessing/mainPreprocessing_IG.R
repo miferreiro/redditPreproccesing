@@ -9,8 +9,8 @@ source("src/write_csv.R")
 message(green("[Preprocessing][INFO] Starting preprocesing: feature selection using information gain..."))
 
 csv <- read_csv(csv = "files_input_IG/outPre_all_comments_september.csv")
-# dtm <- readRDS("files_input_IG/out_final_dtm_tm.rds")
-dtm <- readRDS("files_input_IG/out_final_dtm_tfidf_tm.rds")
+dtm <- readRDS("files_input_IG/out_final_dtm_tm.rds")
+# dtm <- readRDS("files_input_IG/out_final_dtm_tfidf_tm.rds")
 
 target <- csv$subreddit
 final.ig <- c()
@@ -34,16 +34,19 @@ for (col in seq_len(dim(dtm)[2])) {
   names(final.ig)[length(final.ig)] <- Terms(dtm)[col]
 }
 
-# saveRDS(object = final.ig, file = "files_output_IG/out_IG.rds")
-saveRDS(object = final.ig, file = "files_output_IG/out_tfidf_IG.rds")
+saveRDS(object = final.ig, file = "files_output_IG/out_IG.rds")
+# saveRDS(object = final.ig, file = "files_output_IG/out_tfidf_IG.rds")
 
-# final.ig <- readRDS(file = "files_output_IG/out_IG.rds")
-final.ig <- readRDS(file = "files_output_IG/out_tfidf_IG.rds")
-
-dtm <- dtm[, names(sort(final.ig))[1:1000]]
-
-# saveRDS(object = dtm, file = "files_output_IG/out_dtm_IG.rds")
-saveRDS(object = dtm, file = "files_output_IG/out_dtm_tfidf_IG.rds")
+final.ig <- readRDS(file = "files_output_IG/out_IG.rds")
+# final.ig <- readRDS(file = "files_output_IG/out_tfidf_IG.rds")
+final.ig.n <- as.numeric(final.ig)
+names(final.ig.n) <- names(final.ig)
+final.ig <- final.ig.n
+dtm <- dtm[, names(sort(final.ig, decreasing = T))[1:1000]]
+rm(final.ig.n)
+rm(final.ig)
+saveRDS(object = dtm, file = "files_output_IG/out_dtm_IG.rds")
+# saveRDS(object = dtm, file = "files_output_IG/out_dtm_tfidf_IG.rds")
 
 ##################################################################
 ##            CREATION OF THE FINAL DATAFRAME WITH:             ##
@@ -81,7 +84,8 @@ message(blue("[Preprocessing][INFO] Normalizing columns..."))
   rm(transformColums)
 }
 
-saveRDS(data.frame.dtm, "files_output_IG/out_data_frame.rds")
+saveRDS(data.frame.dtm, "files_output_IG/out_data_frame_IG.rds")
+# saveRDS(data.frame.dtm, "files_output_IG/out_tfidf_data_frame_IG.rds")
 
 
 message(green("[Preprocessing][INFO] Finish preprocessing: feature selection using information gain"))
