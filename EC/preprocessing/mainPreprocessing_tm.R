@@ -53,7 +53,7 @@ dtm <- DocumentTermMatrix(csv.corpus)
 dtm_tfidf <-  DocumentTermMatrix(csv.corpus,
                            control = list(weighting = weightTfIdf))
 saveRDS(dtm, "files_output_tm/out_final_dtm_tm.rds")
-saveRDS(dtm_tfidf, "files_output_tm/out_final_dtm_dtm_tfidf_tm.rds")
+saveRDS(dtm_tfidf, "files_output_tm/out_final_dtm_tfidf_tm.rds")
 rm(dtm)
 rm(dtm_tfidf)
 rm(csv.corpus)
