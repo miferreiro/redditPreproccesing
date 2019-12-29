@@ -44,7 +44,6 @@ dtm <- dtm[, names(sort(final.ig))[1:1000]]
 
 # saveRDS(object = dtm, file = "files_output_IG/out_dtm_IG.rds")
 saveRDS(object = dtm, file = "files_output_IG/out_dtm_tfidf_IG.rds")
-s
 
 ##################################################################
 ##            CREATION OF THE FINAL DATAFRAME WITH:             ##
