@@ -1,4 +1,6 @@
-packages.list <- c("bdpar", "R6", "crayon", "ini", "tm", "qdapDictionaries", "textstem", "pipeR")
+packages.list <- c("bdpar", "R6", "crayon", "ini", "tm", "qdapDictionaries",
+                   "textstem", "pipeR", "RWeka")
+
 message("[Preprocesing][PkgChecker][INFO] Package Manager")
 
 checkPackages <- function(packages) {
