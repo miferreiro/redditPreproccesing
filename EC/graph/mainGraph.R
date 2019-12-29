@@ -3,11 +3,11 @@ library(igraph)
 message(green("[Classification][INFO] Starting classification..."))
 #https://kateto.net/networks-r-igraph
 #https://www.jessesadler.com/post/network-analysis-with-r/
-dtm <- readRDS("../preprocessing/files_output_tm/dtm_final_1000.rds")
+dtm <- readRDS("files_input/out_final_dtm_tm.rds")
 matrix <- as.matrix(dtm)
 # matrix[matrix >= 1] <- 1
 termMatrix <- t(matrix) %*% matrix
-saveRDS(termMatrix, "termMatrix.rds")
+saveRDS(termMatrix, "files_output/termMatrix.rds")
 g <- igraph::graph.adjacency(termMatrix, weighted = T, mode = "lower")
 plot(g, edge.color="orange", vertex.color="gray50")
 rglplot(g)
