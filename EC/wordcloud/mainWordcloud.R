@@ -14,12 +14,12 @@ dtm <- readRDS("files_input/out_final_dtm_tm.rds")
 for (subreddit in unique(csv$subreddit)) {
   message(blue("[Wordcloud][INFO] Plotting", subreddit, "wordcloud"))
 
-  freq <- colSums(as.matrix(dtm[csv$subreddit == subreddit, findFreqTerms(dtm, lowfreq = 1000) ]))
+  freq <- colSums(as.matrix(dtm[csv$subreddit == subreddit, ]))
   freq <- sort(freq,
                decreasing = TRUE)
 
-  pdf(paste0("files_output/", subreddit, "_dtm_wordcloud.pdf"))
-  # pdf(paste0("files_output/", subreddit, "_dtm_tfidf_wordcloud.pdf"))
+  pdf(paste0("files_output/", subreddit, "_dtm_tm_wordcloud.pdf"))
+  # pdf(paste0("files_output/", subreddit, "_dtm_tfidf_tm_wordcloud.pdf"))
   plot <- wordcloud::wordcloud(names(freq),
                                freq,
                                max.words = 50,
