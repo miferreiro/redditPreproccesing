@@ -9,7 +9,7 @@ source("src/write_csv.R")
 message(green("[Preprocessing][INFO] Starting preprocessing using tm package..."))
 csv <- read_csv(csv = "files_input_tm/outPre_all_comments_september.csv")
 csv.corpus <- VCorpus(VectorSource(csv$data))
-
+d <- DocumentTermMatrix(csv.corpus)
 ##################################################################
 ##                      BASIC PREPROCESING                      ##
 ##################################################################s
@@ -20,7 +20,7 @@ csv.corpus <- tm_map(csv.corpus, content_transformer(gsub), pattern = "^\\s+|\\s
 csv.corpus <- tm_map(csv.corpus, content_transformer(gsub), pattern = "\\p{Z}", replacement  = " ", perl = T)
 csv.corpus <- tm_map(csv.corpus, content_transformer(trimws))
 csv.corpus <- tm_map(csv.corpus, removeNumbers)
-csv.corpus <- tm_map(csv.corpus, content_transformer(gsub), pattern = '[¿€¥±éÅ¾ž½…·µ×,‚£«»•²!"“”„#$%&\'`´()*+.\\/:;<=>?@\\\\^_\\{\\}|~\\[\\]‘’—–-]+', replacement = ' ', perl = T)
+csv.corpus <- tm_map(csv.corpus, content_transformer(gsub), pattern = '[\024¿€¥±éÅ¾ž½…·µ×,‚£«»•²!"“”„#$%&\'`´()*+.\\/:;<=>?@\\\\^_\\{\\}|~\\[\\]‘’—–-]+', replacement = ' ', perl = T)
 removeLongWords <- content_transformer(function(x, length) {
   return(gsub(paste("(?:^|[[:space:]])[[:alnum:]]{", length, ",}(?=$|[[:space:]])", sep = ""), "", x, perl = T))
 })
@@ -51,7 +51,7 @@ csv.corpus <- tm_map(csv.corpus, content_transformer(gsub), pattern = "\\p{Z}", 
 csv.corpus <- tm_map(csv.corpus, content_transformer(trimws))
 dtm <- DocumentTermMatrix(csv.corpus)
 dtm_tfidf <-  DocumentTermMatrix(csv.corpus,
-                           control = list(weighting = weightTfIdf))
+                                 control = list(weighting = weightTfIdf))
 saveRDS(dtm, "files_output_tm/out_final_dtm_tm.rds")
 saveRDS(dtm_tfidf, "files_output_tm/out_final_dtm_tfidf_tm.rds")
 rm(dtm)
