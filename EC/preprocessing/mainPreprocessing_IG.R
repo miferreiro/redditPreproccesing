@@ -8,11 +8,11 @@ source("src/write_csv.R")
 
 message(green("[Preprocessing][INFO] Starting preprocesing: feature selection using information gain..."))
 
-csv <- read_csv(csv = "files_input_IG/outPre_all_comments_september.csv")
 dtm <- readRDS("files_input_IG/out_final_dtm_tm.rds")
 # dtm <- readRDS("files_input_IG/out_final_dtm_tfidf_tm.rds")
-
+csv <- read_csv(csv = "files_input_IG/outPre_all_comments_september.csv")
 target <- csv$subreddit
+rm(csv)
 final.ig <- c()
 
 for (col in seq_len(dim(dtm)[2])) {
@@ -42,7 +42,7 @@ final.ig <- readRDS(file = "files_output_IG/out_IG.rds")
 final.ig.n <- as.numeric(final.ig)
 names(final.ig.n) <- names(final.ig)
 final.ig <- final.ig.n
-dtm <- dtm[, names(sort(final.ig, decreasing = T))[1:1000]]
+dtm <- dtm[, names(sort(final.ig, decreasing = T))[1:2000]]
 rm(final.ig.n)
 rm(final.ig)
 saveRDS(object = dtm, file = "files_output_IG/out_dtm_IG.rds")
@@ -57,6 +57,7 @@ saveRDS(object = dtm, file = "files_output_IG/out_dtm_IG.rds")
 
 matrix.dtm <- as.matrix(dtm)
 rm(dtm)
+csv <- read_csv(csv = "files_input_IG/outPre_all_comments_september.csv")
 matrix.dtm <- cbind(csv$subreddit, matrix.dtm)
 colnames(matrix.dtm)[1] <- "nameOfSubreddit"
 data.frame.dtm <- as.data.frame(matrix.dtm)
