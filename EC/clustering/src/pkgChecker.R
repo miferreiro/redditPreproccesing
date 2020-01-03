@@ -1,4 +1,7 @@
-packages.list <- c("crayon", "ggplot2", "tm", "factoextra", "cluster", "fpc", "grDevices", "graphics", "pvclust")
+packages.list <- c("crayon", "ggplot2", "tm", "factoextra", "cluster", "pheatmap",
+
+                   "fpc", "grDevices", "graphics", "pvclust")
+
 message("[Clustering][PkgChecker][INFO] Package Manager")
 
 checkPackages <- function(packages){

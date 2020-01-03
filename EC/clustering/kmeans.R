@@ -8,16 +8,24 @@ source("src/read_csv.R")
 dtm <- readRDS("files_input/out_dtm_IG.rds")
 # dtm <- readRDS("files_input/out_dtm_tfidf_IG.rds")
 
-d <- readRDS("files_output/out_dist_euclidian.rds")
-# d <- readRDS("files_output/out_tfidf_dist_euclidian.rds")
+dist <- readRDS("files_output/out_dist_euclidian.rds")
+# dist <- readRDS("files_output/out_tfidf_dist_euclidian.rds")
 
-kfit <- kmeans(d, 10)
+factoextra::fviz_nbclust(dtm, kmeans, method = "silhouette")
 
-clusplot(as.matrix(d), kfit$cluster, color = T, shade = T, labels = 10, lines = 0)
+set.seed(123)
+kfit <- kmeans(dist, 10)#,nstart = 25 )
 
-library(fpc)
-plotcluster(dtm, fit$cluster)
+factoextra::fviz_cluster(kfit, data = dtm, palette = "jco", repel = TRUE,
+                         ggtheme = theme_minimal())
 
-# comparing 2 cluster solutions
-library(fpc)
-cluster.stats(d, fit1$cluster, fit2$cluster)
+aggregate(dtm, by=list(cluster=kfit$cluster), mean)
+
+# clusplot(as.matrix(d), kfit$cluster, color = T, shade = T, labels = 10, lines = 0)
+#
+# library(fpc)
+# plotcluster(dtm, fit$cluster)
+#
+# # comparing 2 cluster solutions
+# library(fpc)
+# cluster.stats(d, fit1$cluster, fit2$cluster)
