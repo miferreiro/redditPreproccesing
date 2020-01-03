@@ -42,7 +42,7 @@ final.ig <- readRDS(file = "files_output_IG/out_IG.rds")
 final.ig.n <- as.numeric(final.ig)
 names(final.ig.n) <- names(final.ig)
 final.ig <- final.ig.n
-dtm <- dtm[, names(sort(final.ig, decreasing = T))[1:2000]]
+dtm <- dtm[, names(sort(final.ig, decreasing = T))[1:1500]]
 rm(final.ig.n)
 rm(final.ig)
 saveRDS(object = dtm, file = "files_output_IG/out_dtm_IG.rds")
