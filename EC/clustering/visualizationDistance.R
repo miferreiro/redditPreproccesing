@@ -1,5 +1,4 @@
 source("src/pkgChecker.R")
-source("src/read_csv.R")
 
 ##################################################################
 ##                    VISUALIZATION DISTANCE                    ##
@@ -7,12 +6,24 @@ source("src/read_csv.R")
 
 message(green("[Clustering][INFO] Starting visualization distance."))
 
-dist <- readRDS("files_output/out_dist_euclidian.rds")
-# dist <- readRDS("files_output/out_tfidf_dist_euclidian.rds")
+diste <- readRDS("files_output/out_dist_euclidian.rds")
+distet <- readRDS("files_output/out_tfidf_dist_euclidian.rds")
+
+distp <- readRDS("files_output/out_dist_pearson.rds")
+distpt <- readRDS("files_output/out_tfidf_dist_pearson.rds")
 
 pdf(paste0("files_output/out_dist_euclidian_heatmap.pdf"))
-# pdf(paste0("files_output/out_tfidf_dist_euclidian_heatmap.pdf"))
-factoextra::fviz_dist(dist)
-
+factoextra::fviz_dist(diste, show_labels = FALSE)
 dev.off()
 
+pdf(paste0("files_output/out_tfidf_dist_euclidian_heatmap.pdf"))
+factoextra::fviz_dist(distet, show_labels = FALSE)
+dev.off()
+
+pdf(paste0("files_output/out_dist_pearson_heatmap.pdf"))
+factoextra::fviz_dist(distp, show_labels = FALSE)
+dev.off()
+
+pdf(paste0("files_output/out_tfidf_dist_pearson_heatmap.pdf"))
+factoextra::fviz_dist(distpt, show_labels = FALSE)
+dev.off()
