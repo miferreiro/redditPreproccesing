@@ -1,5 +1,4 @@
 source("src/pkgChecker.R")
-source("src/read_csv.R")
 
 #################################################################
 ##                          FREQUENCY                          ##
