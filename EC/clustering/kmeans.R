@@ -100,15 +100,34 @@ dev.off()
 set.seed(123)
 kfitPe <- kmeans(distp, 4, nstart = 25)
 pdf(paste0("files_output/out_dist_pearson_kmeans4.pdf"))
-factoextra::fviz_cluster(object = kfitEuTf, data = distp,
+factoextra::fviz_cluster(object = kfitPe, data = distp,
                          palette = "jco", geom = c("point"), main = "",
                          ggtheme = theme_minimal())
 dev.off()
 
 set.seed(123)
-pdf(paste0("files_output/out_tfidf_dist_pearson_kmeans4.pdf"))
 kfitPeTf <- kmeans(distpt, 4, nstart = 25)
+pdf(paste0("files_output/out_tfidf_dist_pearson_kmeans4.pdf"))
 factoextra::fviz_cluster(object = kfitPeTf, data = distpt,
                          palette = "jco", geom = c("point"), main = "",
                          ggtheme = theme_minimal())
 dev.off()
+
+table(kfitEu$cluster)
+table(kfitEuTf$cluster)
+table(kfitPe$cluster)
+table(kfitPeTf$cluster)
+
+skfitEu <- fpc::cluster.stats(d = diste, kfitEu$cluster)
+skfitEuTf <- fpc::cluster.stats(d = distet, kfitEuTf$cluster)
+skfitPe <- fpc::cluster.stats(d = distp, kfitPe$cluster)
+skfitPeTf <- fpc::cluster.stats(d = distpt, kfitPeTf$cluster)
+
+skfitEu$dunn
+skfitEu$clus.avg.silwidths
+skfitEuTf$dunn
+skfitEuTf$clus.avg.silwidths
+skfitPe$dunn
+skfitPe$clus.avg.silwidths
+skfitPeTf$dunn
+skfitPeTf$clus.avg.silwidths
