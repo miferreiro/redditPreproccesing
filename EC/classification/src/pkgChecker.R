@@ -1,6 +1,7 @@
 packages.list <- c("magrittr", "tm", "pipeR","tokenizers",
-                   "FSelector", "kernlab", "caret",
-                   "tidyverse", "recipes", "rlist", "dplyr", "crayon")
+                   "FSelector", "kernlab", "caret", "magrittr",
+                   "tidyverse", "recipes", "rlist", "dplyr", "crayon",
+                   "MLmetrics", "DMwR")
 message("[Classification][PkgChecker][INFO] Package Manager")
 
 checkPackages <- function(packages){
