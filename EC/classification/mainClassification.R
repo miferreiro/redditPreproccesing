@@ -8,6 +8,7 @@ tfidf <- T
 subsampling <- "smote_train"
 
 onlyTrain  <- FALSE
+def.formula <- as.formula("nameOfSubreddit~.")
 if (!onlyTrain)  {
 if (tfidf) {
   message(blue("[Classification][INFO] tfidf"))
@@ -21,7 +22,7 @@ authors <- data.frame.dtm$authorComment
 data.frame.dtm[] <- lapply(data.frame.dtm, as.numeric)
 data.frame.dtm$nameOfSubreddit <- as.factor(target)
 # data.frame.dtm$authorComment <- as.factor(authors)
-def.formula <- as.formula("nameOfSubreddit~.")
+
 rm(target)
 rm(authors)
 
@@ -75,7 +76,6 @@ if (subsampling == "all_train") {
   }
 }
 }
-stop("aqui")
 
 if (subsampling == "all_train") {
   message(blue("[Classification][INFO] all_train"))
@@ -132,7 +132,7 @@ trControl <- caret::trainControl(method = "cv", #use cross-validation
                                  # summaryFunction = caret::defaultSummary, #use defaultSummary function (only computes Accuracy and Kappa values)
                                  summaryFunction = caret::multiClassSummary,
                                  allowParallel = TRUE, #execute in parallel.
-                                 seeds = set.seed(100))
+                                 seeds = set.seed(123))
 
 message(blue("[Classification][INFO] Starting training..."))
 
